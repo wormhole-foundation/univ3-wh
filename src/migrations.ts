@@ -1,6 +1,7 @@
 import { Signer } from '@ethersproject/abstract-signer'
 import { BigNumber } from '@ethersproject/bignumber'
 import { GenericMigrationStep } from './migrate'
+import { WormholeSettings } from './options/whSettings'
 
 export interface MigrationState {
   readonly v3CoreFactoryAddress?: string
@@ -15,6 +16,8 @@ export interface MigrationState {
   readonly v3MigratorAddress?: string
   readonly v3StakerAddress?: string
   readonly nonfungibleTokenPositionManagerAddress?: string
+  readonly wormholeBridgeAddress?: string
+  readonly wormholeReceiverAddress?: string
 }
 
 export type StepOutput = { message: string; hash?: string; address?: string }
@@ -26,6 +29,7 @@ export type MigrationConfig = {
   nativeCurrencyLabelBytes: string
   v2CoreFactoryAddress: string
   ownerAddress: string
+  wormhole: WormholeSettings
 }
 
 export type MigrationStep = GenericMigrationStep<MigrationState, MigrationConfig, StepOutput[]>

@@ -2,9 +2,18 @@ import ProxyAdmin from '@openzeppelin/contracts/build/contracts/ProxyAdmin.json'
 import { Contract } from '@ethersproject/contracts'
 import { MigrationStep } from '../migrations'
 
-export const TRANSFER_PROXY_ADMIN: MigrationStep = async (state, { signer, gasPrice, ownerAddress }) => {
+export const TRANSFER_PROXY_ADMIN: MigrationStep = async (state, config) => {
   if (state.proxyAdminAddress === undefined) {
     throw new Error('Missing ProxyAdmin')
+  }
+  let { signer, gasPrice, ownerAddress } = config
+
+  // if wormhole is enabled, the owner should be the WH receiver address
+  if(config.wormhole.enabled) {
+    if(config.wormhole.receiver_address === undefined) {
+      throw new Error('Missing Wormhole Receiver')
+    }
+    ownerAddress = config.wormhole.receiver_address
   }
 
   const proxyAdmin = new Contract(state.proxyAdminAddress, ProxyAdmin.abi, signer)

@@ -2,6 +2,7 @@ import { Signer } from '@ethersproject/abstract-signer'
 import { BigNumber } from '@ethersproject/bignumber'
 import { migrate } from './migrate'
 import { MigrationState, MigrationStep, StepOutput } from './migrations'
+import { WormholeSettings } from './options/whSettings'
 import { ADD_1BP_FEE_TIER } from './steps/add-1bp-fee-tier'
 import { DEPLOY_MULTICALL2 } from './steps/deploy-multicall2'
 import { DEPLOY_NFT_DESCRIPTOR_LIBRARY_V1_3_0 } from './steps/deploy-nft-descriptor-library-v1_3_0'
@@ -15,6 +16,8 @@ import { DEPLOY_V3_CORE_FACTORY } from './steps/deploy-v3-core-factory'
 import { DEPLOY_V3_MIGRATOR } from './steps/deploy-v3-migrator'
 import { DEPLOY_V3_STAKER } from './steps/deploy-v3-staker'
 import { DEPLOY_V3_SWAP_ROUTER_02 } from './steps/deploy-v3-swap-router-02'
+import { DEPLOY_WORMHOLE_BRIDGE } from './steps/deploy-wormhole-bridge'
+import { DEPLOY_WORMHOLE_RECEIVER } from './steps/deploy-wormhole-receiver'
 import { TRANSFER_PROXY_ADMIN } from './steps/transfer-proxy-admin'
 import { TRANSFER_V3_CORE_FACTORY_OWNER } from './steps/transfer-v3-core-factory-owner'
 
@@ -30,6 +33,10 @@ const MIGRATION_STEPS: MigrationStep[] = [
   DEPLOY_TRANSPARENT_PROXY_DESCRIPTOR,
   DEPLOY_NONFUNGIBLE_POSITION_MANAGER,
   DEPLOY_V3_MIGRATOR,
+  // deploy wormhole before transfering owner
+  DEPLOY_WORMHOLE_BRIDGE,
+  DEPLOY_WORMHOLE_RECEIVER,
+  // end deploy wormhole
   TRANSFER_V3_CORE_FACTORY_OWNER,
   DEPLOY_V3_STAKER,
   DEPLOY_QUOTER_V2,
@@ -46,6 +53,7 @@ export default function deploy({
   nativeCurrencyLabelBytes,
   v2CoreFactoryAddress,
   ownerAddress,
+  wormhole,
 }: {
   signer: Signer
   gasPrice: number | undefined
@@ -55,13 +63,14 @@ export default function deploy({
   ownerAddress: string
   initialState: MigrationState
   onStateChange: (newState: MigrationState) => Promise<void>
+  wormhole: WormholeSettings
 }): AsyncGenerator<StepOutput[], void, void> {
   const gasPrice =
     typeof numberGasPrice === 'number' ? BigNumber.from(numberGasPrice).mul(BigNumber.from(10).pow(9)) : undefined // convert to wei
 
   return migrate({
     steps: MIGRATION_STEPS,
-    config: { gasPrice, signer, weth9Address, nativeCurrencyLabelBytes, v2CoreFactoryAddress, ownerAddress },
+    config: { gasPrice, signer, weth9Address, nativeCurrencyLabelBytes, v2CoreFactoryAddress, ownerAddress, wormhole},
     initialState,
     onStateChange,
   })

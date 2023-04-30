@@ -4,12 +4,7 @@ import linkLibraries from '../../util/linkLibraries'
 
 type ConstructorArgs = (string | number | string[] | number[])[]
 
-export default function createDeployContractStep({
-  key,
-  artifact: { contractName, abi, bytecode, linkReferences },
-  computeLibraries,
-  computeArguments,
-}: {
+export interface DeployContractStepArgs {
   key: keyof MigrationState
   artifact: {
     contractName: string
@@ -19,7 +14,14 @@ export default function createDeployContractStep({
   }
   computeLibraries?: (state: Readonly<MigrationState>, config: MigrationConfig) => { [libraryName: string]: string }
   computeArguments?: (state: Readonly<MigrationState>, config: MigrationConfig) => ConstructorArgs
-}): MigrationStep {
+}
+
+export default function createDeployContractStep({
+  key,
+  artifact: { contractName, abi, bytecode, linkReferences },
+  computeLibraries,
+  computeArguments,
+}:DeployContractStepArgs ): MigrationStep {
   if (linkReferences && Object.keys(linkReferences).length > 0 && !computeLibraries) {
     throw new Error('Missing function to compute library addresses')
   } else if (computeLibraries && (!linkReferences || Object.keys(linkReferences).length === 0)) {
@@ -35,7 +37,7 @@ export default function createDeployContractStep({
         linkReferences && computeLibraries
           ? linkLibraries({ bytecode, linkReferences }, computeLibraries(state, config))
           : bytecode,
-        config.signer
+          config.signer
       )
 
       let contract: Contract
