@@ -36,6 +36,12 @@ describe('deploy-v3-core-factory', () => {
             v2CoreFactoryAddress: DUMMY_ADDRESS,
             weth9Address: DUMMY_ADDRESS,
             nativeCurrencyLabelBytes: asciiStringToBytes32('ETH'),
+            wormhole: {
+              enabled: false,
+              chain_id: 0,
+              bridge_deploy: false,
+              receiver_deploy: false,
+            }
           }
         )
       )
@@ -53,6 +59,12 @@ describe('deploy-v3-core-factory', () => {
             v2CoreFactoryAddress: DUMMY_ADDRESS,
             weth9Address: DUMMY_ADDRESS,
             nativeCurrencyLabelBytes: asciiStringToBytes32('ETH'),
+            wormhole: {
+              enabled: false,
+              chain_id: 0,
+              bridge_deploy: false,
+              receiver_deploy: false,
+            }
           }
         )
       )
@@ -73,6 +85,12 @@ describe('deploy-v3-core-factory', () => {
               v2CoreFactoryAddress: DUMMY_ADDRESS,
               weth9Address: DUMMY_ADDRESS,
               nativeCurrencyLabelBytes: asciiStringToBytes32('ETH'),
+              wormhole: {
+                enabled: false,
+                chain_id: 0,
+                bridge_deploy: false,
+                receiver_deploy: false,
+              }
             }
           )
         )
