@@ -83,55 +83,38 @@ if (!/^0x[a-zA-Z0-9]{64}$/.test(program.privateKey)) {
 }
 
 let url: URL
-try {
+
+tryWith(()=>{
   url = new URL(program.jsonRpc)
-} catch (error) {
-  console.error('Invalid JSON RPC URL', (error as Error).message)
-  process.exit(1)
-}
+},'Invalid JSON RPC URL')
 
 let gasPrice: number | undefined
-try {
+tryWith(()=>{
   gasPrice = program.gasPrice ? parseInt(program.gasPrice) : undefined
-} catch (error) {
-  console.error('Failed to parse gas price', (error as Error).message)
-  process.exit(1)
-}
+},'Failed to parse gas price')
 
 let confirmations: number
-try {
+tryWith(()=>{
   confirmations = parseInt(program.confirmations)
-} catch (error) {
-  console.error('Failed to parse confirmations', (error as Error).message)
-  process.exit(1)
-}
+},'Failed to parse confirmations')
 
 let nativeCurrencyLabelBytes: string
-try {
+tryWith(()=>{
   nativeCurrencyLabelBytes = asciiStringToBytes32(program.nativeCurrencyLabel)
-} catch (error) {
-  console.error('Invalid native currency label', (error as Error).message)
-  process.exit(1)
-}
+},'Invalid native currency label')
 
 let weth9Address: string
-try {
+tryWith(()=>{
   weth9Address = getAddress(program.weth9Address)
-} catch (error) {
-  console.error('Invalid WETH9 address', (error as Error).message)
-  process.exit(1)
-}
+},'Invalid WETH9 address')
 
 let v2CoreFactoryAddress: string
 if (typeof program.v2CoreFactoryAddress === 'undefined') {
   v2CoreFactoryAddress = AddressZero
 } else {
-  try {
+  tryWith(()=>{
     v2CoreFactoryAddress = getAddress(program.v2CoreFactoryAddress)
-  } catch (error) {
-    console.error('Invalid V2 factory address', (error as Error).message)
-    process.exit(1)
-  }
+  },'Invalid V2 factory address')
 }
 
 let ownerAddress: string
@@ -140,15 +123,12 @@ if(wormhole.enabled === false) {
     console.error('Owner address must be set if wormhole is disabled')
     process.exit(1)
   }
-  try {
+  tryWith(()=>{
     ownerAddress = getAddress(program.ownerAddress)
-  } catch (error) {
-    console.error('Invalid owner address', (error as Error).message)
-    process.exit(1)
-  }
+  },'Invalid owner address')
 }
 
-const wallet = new Wallet(program.privateKey, new JsonRpcProvider({ url: url.href }))
+const wallet = new Wallet(program.privateKey, new JsonRpcProvider({ url: url!.href }))
 
 let state: MigrationState
 if (fs.existsSync(program.state)) {
