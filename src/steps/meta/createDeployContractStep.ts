@@ -21,7 +21,7 @@ export default function createDeployContractStep({
   artifact: { contractName, abi, bytecode, linkReferences },
   computeLibraries,
   computeArguments,
-}:DeployContractStepArgs ): MigrationStep {
+}: DeployContractStepArgs): MigrationStep {
   if (linkReferences && Object.keys(linkReferences).length > 0 && !computeLibraries) {
     throw new Error('Missing function to compute library addresses')
   } else if (computeLibraries && (!linkReferences || Object.keys(linkReferences).length === 0)) {
@@ -37,7 +37,7 @@ export default function createDeployContractStep({
         linkReferences && computeLibraries
           ? linkLibraries({ bytecode, linkReferences }, computeLibraries(state, config))
           : bytecode,
-          config.signer
+        config.signer
       )
 
       let contract: Contract

@@ -10,13 +10,12 @@ export const TRANSFER_V3_CORE_FACTORY_OWNER: MigrationStep = async (state, confi
   let { signer, gasPrice, ownerAddress } = config
 
   // if wormhole is enabled, the owner should be the WH receiver address
-  if(config.wormhole.enabled) {
-    if(config.wormhole.receiver_address === undefined) {
+  if (config.wormhole.enabled) {
+    if (config.wormhole.receiver_address === undefined) {
       throw new Error('Missing Wormhole Receiver')
     }
     ownerAddress = config.wormhole.receiver_address
   }
-
 
   const v3CoreFactory = new Contract(state.v3CoreFactoryAddress, UniswapV3Factory.abi, signer)
 

@@ -1,6 +1,5 @@
-
 export interface WormholeSettings {
-  enabled:boolean
+  enabled: boolean
 
   chain_id: number
 
