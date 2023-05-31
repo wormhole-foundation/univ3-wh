@@ -16,7 +16,6 @@ import { DEPLOY_V3_CORE_FACTORY } from './steps/deploy-v3-core-factory'
 import { DEPLOY_V3_MIGRATOR } from './steps/deploy-v3-migrator'
 import { DEPLOY_V3_STAKER } from './steps/deploy-v3-staker'
 import { DEPLOY_V3_SWAP_ROUTER_02 } from './steps/deploy-v3-swap-router-02'
-import { DEPLOY_WORMHOLE_BRIDGE } from './steps/deploy-wormhole-bridge'
 import { DEPLOY_WORMHOLE_RECEIVER } from './steps/deploy-wormhole-receiver'
 import { TRANSFER_PROXY_ADMIN } from './steps/transfer-proxy-admin'
 import { TRANSFER_V3_CORE_FACTORY_OWNER } from './steps/transfer-v3-core-factory-owner'
@@ -34,7 +33,6 @@ const MIGRATION_STEPS: MigrationStep[] = [
   DEPLOY_NONFUNGIBLE_POSITION_MANAGER,
   DEPLOY_V3_MIGRATOR,
   // deploy wormhole before transfering owner
-  DEPLOY_WORMHOLE_BRIDGE,
   DEPLOY_WORMHOLE_RECEIVER,
   // end deploy wormhole
   TRANSFER_V3_CORE_FACTORY_OWNER,

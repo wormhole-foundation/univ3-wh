@@ -3,7 +3,6 @@ export interface WormholeSettings {
 
   chain_id: number
 
-  bridge_deploy: boolean
   bridge_address?: string
 
   receiver_deploy: boolean

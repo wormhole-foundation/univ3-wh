@@ -26,7 +26,6 @@ program
   .option('-wh, --wormhole-enable', 'Whether or not to enable Wormhole for the deployment. Wormhole settings are ignored unless this is set to true', false)
   .option('--wormhole-chain-id <number>', 'Chain ID to configure wormhole using', "1")
   .option('--wormhole-bridge-address <address>', 'Address of the Wormhole bridge', "")
-  .option('--wormhole-bridge-deploy', 'if true, deploy a Wormhole bridge. The setting is ignored if --wormhole-bridge-address is set', false)
   .option('--wormhole-receiver-address <address>', 'Address of the Wormhole receiver', "")
   .option('--wormhole-receiver-deploy', 'If true, deploy a Wormhole receiver. The setting is ignored if --wormhole-receiver-address is set', false)
   .option('--wormhole-message-sender-address <address>', 'Address of the Wormhole message sender. Required if --wormhole-receiver-deploy is set', "")
@@ -47,11 +46,9 @@ let wormhole: WormholeSettings = {
   enabled: false,
   chain_id: 0,
   receiver_deploy: false,
-  bridge_deploy: false,
   message_sender: "",
 }
 wormhole.enabled = program.wormholeEnable
-wormhole.bridge_deploy = program.wormholeBridgeDeploy
 wormhole.receiver_deploy = program.wormholeReceiverDeploy
 if(wormhole.enabled) {
   tryWith(()=>{
@@ -59,9 +56,7 @@ if(wormhole.enabled) {
   },'Failed to parse Wormhole Chain ID')
 
   tryWith(()=>{
-    if(wormhole.bridge_deploy === false) {
       wormhole.bridge_address = getAddress(program.wormholeBridgeAddress)
-    }
   },'Failed to parse Wormhole Bridge configuration')
   tryWith(()=>{
     if(wormhole.receiver_deploy === false ) {
