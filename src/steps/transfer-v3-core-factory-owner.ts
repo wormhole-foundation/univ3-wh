@@ -11,7 +11,6 @@ export const TRANSFER_V3_CORE_FACTORY_OWNER: MigrationStep = async (state, confi
 
   // if wormhole is enabled, the owner should be the WH receiver address
   if (config.wormhole.enabled) {
-    console.log("state:", state)
     if (state.wormholeReceiverAddress === undefined) {
       throw new Error('Missing Wormhole Receiver')
     }
