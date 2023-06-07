@@ -28,6 +28,6 @@ export default function createConditionalDeployContractStep(
         ]
       }
     }
-    return await createDeployContractStep(args)(state, config)
+    return createDeployContractStep(args)(state, config)
   }
 }

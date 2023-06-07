@@ -10,10 +10,10 @@ export const TRANSFER_PROXY_ADMIN: MigrationStep = async (state, config) => {
 
   // if wormhole is enabled, the owner should be the WH receiver address
   if (config.wormhole.enabled) {
-    if (config.wormhole.receiver_address === undefined) {
+    if (state.wormholeReceiverAddress === undefined) {
       throw new Error('Missing Wormhole Receiver')
     }
-    ownerAddress = config.wormhole.receiver_address
+    ownerAddress = state.wormholeReceiverAddress
   }
 
   const proxyAdmin = new Contract(state.proxyAdminAddress, ProxyAdmin.abi, signer)
