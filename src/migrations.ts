@@ -16,7 +16,6 @@ export interface MigrationState {
   readonly v3MigratorAddress?: string
   readonly v3StakerAddress?: string
   readonly nonfungibleTokenPositionManagerAddress?: string
-  readonly wormholeBridgeAddress?: string
   readonly wormholeReceiverAddress?: string
 }
 
