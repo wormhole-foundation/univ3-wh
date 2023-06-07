@@ -11,14 +11,14 @@ export const DEPLOY_WORMHOLE_RECEIVER = createConditionalDeployContractStep(
       bytecode: dappToolsArtifact.bytecode.object,
       linkReferences: dappToolsArtifact.bytecode.linkReferences,
     },
-    computeArguments(state, config) {
-      if (state.wormholeBridgeAddress === undefined) {
+    computeArguments(_, config) {
+      if (config.wormhole.bridge_address === undefined) {
         throw new Error('Missing Wormhole Bridge')
       }
       if (config.wormhole.message_sender === undefined) {
         throw new Error('Missing Wormhole Message Sender')
       }
-      return [state.wormholeBridgeAddress, config.wormhole.message_sender, config.wormhole.chain_id]
+      return [config.wormhole.bridge_address, config.wormhole.message_sender, config.wormhole.chain_id]
     },
   },
   async (_, config) => {
