@@ -1,5 +1,8 @@
 private/
 
+# should not be uploaded by defualt
+state.json
+
 # Logs
 logs
 *.log
