@@ -39,7 +39,6 @@ describe('deploy-v3-core-factory', () => {
             wormhole: {
               enabled: false,
               chain_id: 0,
-              bridge_deploy: false,
               receiver_deploy: false,
             }
           }
@@ -62,7 +61,6 @@ describe('deploy-v3-core-factory', () => {
             wormhole: {
               enabled: false,
               chain_id: 0,
-              bridge_deploy: false,
               receiver_deploy: false,
             }
           }
@@ -88,7 +86,6 @@ describe('deploy-v3-core-factory', () => {
               wormhole: {
                 enabled: false,
                 chain_id: 0,
-                bridge_deploy: false,
                 receiver_deploy: false,
               }
             }
