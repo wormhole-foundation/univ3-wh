@@ -2,6 +2,10 @@ import createConditionalDeployContractStep from './meta/createConditionalDeployC
 
 import dappToolsArtifact from '../../contracts/UniswapWormholeMessageReceiver.json'
 
+const leftPadAddress = (addr:string)=>{
+  return addr.replace("0x", "0x000000000000000000000000")
+}
+
 export const DEPLOY_WORMHOLE_RECEIVER = createConditionalDeployContractStep(
   {
     key: 'wormholeReceiverAddress',
@@ -18,7 +22,7 @@ export const DEPLOY_WORMHOLE_RECEIVER = createConditionalDeployContractStep(
       if (config.wormhole.message_sender === undefined) {
         throw new Error('Missing Wormhole Message Sender')
       }
-      return [config.wormhole.bridge_address, config.wormhole.message_sender, config.wormhole.chain_id]
+      return [config.wormhole.bridge_address, leftPadAddress(config.wormhole.message_sender), config.wormhole.chain_id]
     },
   },
   async (_, config) => {
